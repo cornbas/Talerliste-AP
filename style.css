@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'Arbeiderpartiet';
+    src: url(fonts/JernskriftSN-Arbeiderpartiet.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Brødtekst';
+    src: url(fonts/GT-America-Standard-Bold.woff2) format('woff2');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'Brødtekst';
+    src: url(fonts/GT-America-Standard-Regular.woff2) format('woff2');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Brødtekst';
+    src: url(fonts/GT-America-Standard-Regular-Italic.woff2) format('woff2');
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Brødtekst';
+    src: url(fonts/GT-America-Standard-Medium.woff2) format('woff2');
+    font-weight: medium;
+}
+body {
+    background: #e31c28;
+}
+h1 {font-family: 'Arbeiderpartiet';
+    font-size: 2.5em;
+    color: #fff;
+    margin: 0;
+    padding: 0.0em 0;
+    font-weight: normal;
+}
+h2 {
+    font-family: 'Arbeiderpartiet';
+    font-size: 1.5em;
+    color: #fff;
+    margin: -0.2em 0 0 0px;
+    padding: 0.0em 0;
+    font-weight: normal;
+}
+p {
+    font-family: 'Brødtekst';
+    font-size: 1.0em;
+    color: #fff;
+    margin: 0;
+    padding: 0.5em 0;
+    font-weight: normal;
+}

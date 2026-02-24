@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Talerliste AP</title>
+    <style>
+      body {
+        margin: 35px;
+      }
+      #columnBContainer {
+        display: flex;
+        align-items: flex-start;
+      }
+      #roseBild {
+        width: 20px;
+        height: 21px;
+        margin-right: 4px;
+        margin-top: 0px;
+      }
+      #columnB {
+        margin-right: 10px;
+      }
+      #nextFive {
+        margin-top: 20px;
+        height: calc(4 * 1.4em * 0.8 + 1.6em);
+      }
+      #nesteLabel {
+        font-family: "Brødtekst", sans-serif;
+        font-size: 0.75em;
+        font-weight: bold;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin: 0 0 4px 0;
+        padding: 0;
+      }
+      #nextFiveNumbers {
+        flex-shrink: 0;
+        margin-right: 6px;
+        height: 100%;
+        overflow: hidden;
+      }
+      #nextFiveNumbers p {
+        margin: 0;
+        padding: 0;
+        height: 1.4em;
+        line-height: 1.4em;
+        font-weight: bold;
+        font-size: 0.8em;
+      }
+      #nextFiveNames {
+        overflow: hidden;
+        flex: 1;
+        height: 100%;
+      }
+      #nextFiveInner {
+        will-change: transform;
+      }
+      #nextFive p {
+        margin: 0;
+        padding: 0;
+        height: 1.4em;
+        line-height: 1.4em;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 0.8em;
+      }
+      button {
+        margin-top: 20px;
+        margin-right: 10px;
+        background-color: #fff;
+        color: #e31c28;
+        border: 2px solid #fff;
+        border-radius: 0;
+        padding: 3px 10px;
+        font-family: "Brødtekst", sans-serif;
+        font-size: 0.6em;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      button:hover {
+        background-color: #e31c28;
+        color: #fff;
+        border-color: #fff;
+      }
+      #btnTilbake {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        font-weight: normal;
+      }
+      #btnTilbake:hover {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.85);
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+      #sheetSection button {
+        margin-top: 0;
+      }
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      #nextName.slide-down,
+      #columnBContainer.slide-down {
+        animation: slideDown 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+      }
+      #nextName.slide-up,
+      #columnBContainer.slide-up {
+        animation: slideUp 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+      }
+      #columnC {
+        font-family: "Brødtekst", sans-serif;
+        font-size: 1em;
+        font-weight: normal;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        margin-bottom: -2px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      #sheetSection {
+        margin-top: 30px;
+      }
+      #sheetLabel {
+        font-family: "Brødtekst", sans-serif;
+        font-size: 0.65em;
+        font-weight: bold;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin: 0 0 4px 0;
+        padding: 0;
+        opacity: 0.7;
+      }
+      #sheetInputRow {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+        align-items: center;
+      }
+      #sheetInput {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 0;
+        color: #fff;
+        font-family: "Brødtekst", sans-serif;
+        font-size: 0.65em;
+        padding: 3px 8px;
+        width: 280px;
+        outline: none;
+      }
+      #sheetInput::placeholder {
+        color: rgba(255, 255, 255, 0.45);
+      }
+      #sheetNameDisplay {
+        font-family: "Brødtekst", sans-serif;
+        font-size: 0.65em;
+        color: rgb(255, 255, 255);
+        margin: 6px 0 0 0;
+        padding: 0;
+        font-style: italic;
+        min-height: 1em;
+      }
+      #colConfigRow {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        align-items: flex-end;
+        margin-top: 10px;
+      }
+      #colConfigRow button {
+        margin-top: 0;
+      }
+      .colConfigItem {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .colConfigLabel {
+        font-family: "Brødtekst", sans-serif;
+        font-size: 0.6em;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 0;
+        margin: 0;
+      }
+      .colInput {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 0;
+        color: #fff;
+        font-family: "Brødtekst", sans-serif;
+        font-size: 0.65em;
+        padding: 3px 8px;
+        width: 36px;
+        outline: none;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      .colInput::placeholder {
+        color: rgba(255, 255, 255, 0.45);
+      }
+      #topRightText {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        font-family: "Brødtekst", sans-serif;
+        font-size: 1em;
+        color: #fff;
+        text-align: right;
+        white-space: pre-wrap;
+        pointer-events: none;
+      }
+      #topRightSection {
+        margin-bottom: 16px;
+      }
+      #topRightInput {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 0;
+        color: #fff;
+        font-family: "Brødtekst", sans-serif;
+        font-size: 0.65em;
+        padding: 3px 8px;
+        width: 280px;
+        outline: none;
+      }
+      #topRightInput::placeholder {
+        color: rgba(255, 255, 255, 0.45);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="topRightText"></div>
+    <p id="columnC"></p>
+    <h1 id="nextName"></h1>
+    <div id="columnBContainer">
+      <img id="roseBild" src="pictures/Rose_hvit.png" alt="rose" />
+      <h2 id="columnB"></h2>
+    </div>
+    <div id="nextFive">
+      <p id="nesteLabel">Neste</p>
+      <div style="display: flex; flex-direction: row; align-items: flex-start">
+        <div id="nextFiveNumbers"></div>
+        <div id="nextFiveNames"><div id="nextFiveInner"></div></div>
+      </div>
+    </div>
+    <button id="btnTilbake" onclick="showPrevious()">Tilbake</button>
+    <button onclick="showNext()">Neste taler</button>
+    <div id="sheetSection">
+      <div id="topRightSection">
+        <p
+          class="sheetLabel"
+          style="
+            font-family: &quot;Brødtekst&quot;, sans-serif;
+            font-size: 0.65em;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 0 0 4px 0;
+            padding: 0;
+            opacity: 0.7;
+          "
+        >
+          Debattittel
+        </p>
+        <input
+          id="topRightInput"
+          type="text"
+          placeholder="Skriv inn tekst..."
+          oninput="
+            document.getElementById('topRightText').textContent = this.value
+          "
+        />
+        <p
+          style="
+            font-family: &quot;Brødtekst&quot;, sans-serif;
+            font-size: 0.65em;
+            font-weight: normal;
+            color: #fff;
+            margin: 6px 0 0 0;
+            padding: 0;
+          "
+        >
+          Velg en passende tittel (valgfritt) i feltet over. Teksten vises
+          øverst til høyre, og kan endres når som helst.
+        </p>
+      </div>
+      <p id="sheetLabel">Google Sheets URL</p>
+      <div id="sheetInputRow">
+        <input
+          id="sheetInput"
+          type="text"
+          placeholder="Lim inn Google Sheets-lenke..."
+        />
+        <button onclick="loadFromUrl()">Last inn</button>
+      </div>
+      <p id="sheetNameDisplay"></p>
+      <p
+        style="
+          font-family: &quot;Brødtekst&quot;, sans-serif;
+          font-size: 0.65em;
+          font-weight: normal;
+          color: #fff;
+          margin: 3px 0 0 0;
+          padding: 0;
+        "
+      >
+        Lim inn linken til Google Regneark-oversikten (talerlista). Sørg for at
+        regnearket har lesetilgang for "Alle som har linken" (Del - Generell
+        tilgang).
+      </p>
+      <p
+        style="
+          font-family: &quot;Brødtekst&quot;, sans-serif;
+          font-size: 0.65em;
+          font-weight: normal;
+          color: #fff;
+          margin: 8px 0 0 0;
+          padding: 0;
+        "
+      >
+        I feltene under skriver du inn navnet på kolonnen som inneholder verdien
+        som feltet ber om. Dersom du har delegatnummer plassert i kolonnen
+        lengst til venstre, skriver du "A". Dersom navn er delt opp i for- og
+        etternavn, skriver du inn kolonnene i hvert sitt felt og lar "Fullt
+        navn" stå tomt, og vice versa.
+      </p>
+      <div id="colConfigRow">
+        <div class="colConfigItem">
+          <span class="colConfigLabel">Nummer</span>
+          <input
+            class="colInput"
+            id="colNummer"
+            type="text"
+            value="C"
+            maxlength="2"
+          />
+        </div>
+        <div class="colConfigItem">
+          <span class="colConfigLabel">Fullt navn</span>
+          <input
+            class="colInput"
+            id="colNavn"
+            type="text"
+            value="A"
+            maxlength="2"
+          />
+        </div>
+        <div class="colConfigItem">
+          <span class="colConfigLabel">Fornavn</span>
+          <input
+            class="colInput"
+            id="colFornavn"
+            type="text"
+            placeholder="–"
+            maxlength="2"
+          />
+        </div>
+        <div class="colConfigItem">
+          <span class="colConfigLabel">Etternavn</span>
+          <input
+            class="colInput"
+            id="colEtternavn"
+            type="text"
+            placeholder="–"
+            maxlength="2"
+          />
+        </div>
+        <div class="colConfigItem">
+          <span class="colConfigLabel">Partilag</span>
+          <input
+            class="colInput"
+            id="colPartilag"
+            type="text"
+            value="B"
+            maxlength="2"
+          />
+        </div>
+        <button onclick="applyColumnConfig()">Bruk</button>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script>
+      let names = [];
+      let currentIndex = 0;
+
+      function toTitleCase(str) {
+        if (!str) return str;
+        return str.replace(
+          /(^|[\s\-])([a-zæøå])/gi,
+          (m, sep, ch) => sep + ch.toUpperCase(),
+        );
+      }
+
+      function displayCurrentName() {
+        if (names.length > 0) {
+          document.getElementById("nextName").innerText = toTitleCase(
+            names[currentIndex].name,
+          );
+          document.getElementById("columnB").innerText =
+            names[currentIndex].columnB;
+          document.getElementById("columnC").innerText = names[currentIndex]
+            .columnC
+            ? "#" + names[currentIndex].columnC
+            : "";
+        }
+      }
+
+      function displayCurrent() {
+        displayCurrentName();
+        updateNextFive();
+      }
+
+      function buildQueueItem(absoluteIndex) {
+        if (absoluteIndex < 0 || absoluteIndex >= names.length) {
+          return `<p style="visibility:hidden">&nbsp;</p>`;
+        }
+        const n = names[absoluteIndex];
+        return `<p>${toTitleCase(n.name)}${n.columnC ? ", #" + n.columnC : ""}</p>`;
+      }
+
+      function updateNextFive() {
+        const inner = document.getElementById("nextFiveInner");
+        const numbersEl = document.getElementById("nextFiveNumbers");
+        inner.style.transition = "none";
+        inner.style.transform = "translateY(0)";
+        let html = "";
+        for (let i = 1; i <= 4; i++) html += buildQueueItem(currentIndex + i);
+        inner.innerHTML = html;
+        let numHtml = "";
+        for (let i = 1; i <= 4; i++)
+          numHtml +=
+            currentIndex + i < names.length
+              ? `<p>${i}.</p>`
+              : `<p style="visibility:hidden">&nbsp;</p>`;
+        numbersEl.innerHTML = numHtml;
+      }
+
+      function showNext() {
+        if (names.length > 0 && currentIndex < names.length - 1) {
+          const nextNameEl = document.getElementById("nextName");
+          const columnBContainerEl =
+            document.getElementById("columnBContainer");
+          const inner = document.getElementById("nextFiveInner");
+
+          nextNameEl.classList.remove("slide-down", "slide-up");
+          columnBContainerEl.classList.remove("slide-down", "slide-up");
+          currentIndex++;
+          displayCurrentName();
+          void nextNameEl.offsetWidth;
+          nextNameEl.classList.add("slide-up");
+          columnBContainerEl.classList.add("slide-up");
+
+          setTimeout(() => {
+            let html = "";
+            for (let i = 0; i <= 4; i++)
+              html += buildQueueItem(currentIndex + i);
+            inner.style.transition = "none";
+            inner.style.transform = "translateY(0)";
+            inner.innerHTML = html;
+
+            const itemHeight = inner
+              .querySelector("p")
+              .getBoundingClientRect().height;
+            inner.getBoundingClientRect();
+
+            inner.style.transition = "transform 0.35s ease-out";
+            inner.style.transform = `translateY(-${itemHeight}px)`;
+
+            inner.addEventListener(
+              "transitionend",
+              function handler() {
+                inner.removeEventListener("transitionend", handler);
+                updateNextFive();
+              },
+              { once: true },
+            );
+          }, 200);
+        }
+      }
+
+      function showPrevious() {
+        if (names.length > 0 && currentIndex > 0) {
+          const nextNameEl = document.getElementById("nextName");
+          const columnBContainerEl =
+            document.getElementById("columnBContainer");
+          const inner = document.getElementById("nextFiveInner");
+
+          currentIndex--;
+
+          nextNameEl.classList.remove("slide-down", "slide-up");
+          columnBContainerEl.classList.remove("slide-down", "slide-up");
+          displayCurrentName();
+          void nextNameEl.offsetWidth;
+          nextNameEl.classList.add("slide-down");
+          columnBContainerEl.classList.add("slide-down");
+
+          setTimeout(() => {
+            let html = "";
+            for (let i = 1; i <= 5; i++)
+              html += buildQueueItem(currentIndex + i);
+            inner.innerHTML = html;
+
+            const itemHeight = inner
+              .querySelector("p")
+              .getBoundingClientRect().height;
+            inner.style.transition = "none";
+            inner.style.transform = `translateY(-${itemHeight}px)`;
+            inner.getBoundingClientRect();
+
+            inner.style.transition = "transform 0.35s ease-out";
+            inner.style.transform = "translateY(0)";
+
+            inner.addEventListener(
+              "transitionend",
+              function handler() {
+                inner.removeEventListener("transitionend", handler);
+                updateNextFive();
+              },
+              { once: true },
+            );
+          }, 200);
+        }
+      }
+
+      let csvUrl = "";
+
+      let colNavnIdx = 0;
+      let colPartilagIdx = 1;
+      let colNummerIdx = 2;
+      let colFornavnIdx = -1;
+      let colEtternavnIdx = -1;
+
+      function colLetterToIndex(letter) {
+        return letter.trim().toUpperCase().charCodeAt(0) - 65;
+      }
+
+      function applyColumnConfig() {
+        const n = document.getElementById("colNavn").value;
+        const p = document.getElementById("colPartilag").value;
+        const nr = document.getElementById("colNummer").value;
+        const fn = document.getElementById("colFornavn").value;
+        const en = document.getElementById("colEtternavn").value;
+        if (n) colNavnIdx = colLetterToIndex(n);
+        if (p) colPartilagIdx = colLetterToIndex(p);
+        if (nr) colNummerIdx = colLetterToIndex(nr);
+        colFornavnIdx = fn.trim() ? colLetterToIndex(fn) : -1;
+        colEtternavnIdx = en.trim() ? colLetterToIndex(en) : -1;
+        fetchNames(false);
+      }
+
+      function loadFromUrl() {
+        const input = document.getElementById("sheetInput").value.trim();
+        if (!input) return;
+        let url = input;
+        const match = input.match(/spreadsheets\/d\/([^/]+)/);
+        if (match) {
+          url = `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv`;
+        }
+        csvUrl = url;
+        currentIndex = 0;
+        fetchNames(true);
+        document.getElementById("sheetInput").value = "";
+        document.getElementById("sheetNameDisplay").textContent = "Laster...";
+        fetch(url)
+          .then((res) => {
+            const disp = res.headers.get("content-disposition");
+            let name = null;
+            if (disp) {
+              // RFC 5987 encoded: filename*=UTF-8''percent-encoded-name
+              const rfc5987 = disp.match(/filename\*=UTF-8''([^;\n]+)/i);
+              if (rfc5987) {
+                name = decodeURIComponent(rfc5987[1].trim()).replace(
+                  /\.csv$/i,
+                  "",
+                );
+              } else {
+                // Plain quoted filename: filename="raw name" — already UTF-8, no decoding
+                const plain = disp.match(/filename="([^"]+)"/i);
+                if (plain) name = plain[1].trim().replace(/\.csv$/i, "");
+              }
+            }
+            document.getElementById("sheetNameDisplay").textContent = name
+              ? name
+              : match
+                ? match[1].slice(0, 24) + "…"
+                : url.slice(0, 30) + "…";
+          })
+          .catch(() => {
+            const id = match ? match[1] : url;
+            document.getElementById("sheetNameDisplay").textContent =
+              id.slice(0, 24) + "…";
+          });
+      }
+
+      function fetchNames(isInitialLoad) {
+        if (!csvUrl) return;
+        Papa.parse(csvUrl, {
+          header: false,
+          download: true,
+          complete: function (results) {
+            const newNames = results.data
+              .map((row) => {
+                const values = row;
+                let navn;
+                if (colFornavnIdx >= 0 || colEtternavnIdx >= 0) {
+                  const fn =
+                    colFornavnIdx >= 0 ? values[colFornavnIdx] || "" : "";
+                  const en =
+                    colEtternavnIdx >= 0 ? values[colEtternavnIdx] || "" : "";
+                  navn = [fn, en].filter(Boolean).join(" ");
+                } else {
+                  navn = values[colNavnIdx];
+                }
+                return {
+                  name: navn,
+                  columnB: values[colPartilagIdx],
+                  columnC: values[colNummerIdx],
+                };
+              })
+              .filter((item) => item.name);
+            names = newNames;
+            if (isInitialLoad) {
+              currentIndex = 0;
+              displayCurrent();
+            } else {
+              if (currentIndex >= names.length) {
+                currentIndex = Math.max(0, names.length - 1);
+              }
+              displayCurrent();
+            }
+          },
+          error: function (error) {
+            console.error("Error parsing CSV:", error);
+          },
+        });
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        setInterval(() => fetchNames(false), 10000);
+      });
+    </script>
+  </body>
+</html>
